@@ -4,6 +4,12 @@ Schema Check is an object validation and checking package designed to allow you 
 
 Uses Object.defineProperty and private fields prefixed with '__'
 
+To Install:
+
+```
+npm install schema-check
+```
+
 ###Usage
 Pass in an object, schema and is_strict (can the object have additional fields?)
 
