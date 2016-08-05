@@ -7,20 +7,48 @@ Uses Object.defineProperty and private fields prefixed with '__'
 ###Usage
 Pass in an object, schema and is_strict (can the object have additional fields?)
 
-```
+```javascript
 var SchemaCheck = require('schema-check');
+
+var obj = {
+  name: "test",
+  rating: 5
+};
+
+var schema = {
+  name: {
+    type: "string",
+    allow_nulls: false,
+    editable: false,
+  },
+  rating: {
+    type: "number"
+  }
+}
 
 var newObj = SchemaCheck(obj, schema, is_strict);
 
-or
+//or
 
 SchemaCheck(obj, schema);
+
+//Examples
+//Modifying Name doesn't work since editable is false
+obj.name = "bob";
+obj.name; //test
+
+//Modifying Rating does work
+obj.rating = 10;
+obj.rating; //10
+
+//Trying to set rating to a string throws an error
+obj.rating = "10"; //Throws TypeError;
 
 ```
 
 Schemas can have the following format:
 
-```
+```javascript
 {
   field: {
     type: 'string',       //string, object, number, array -- Only String/Number working
@@ -32,3 +60,5 @@ Schemas can have the following format:
 ```
 
 Note:  Currently Only String and Number Validation is working
+
+TODO: More Examples
