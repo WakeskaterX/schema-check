@@ -141,7 +141,7 @@ function stringValidation(prop_name, allow_nulls) {
     if (allow_nulls && value === null) return this['__' + prop_name] = value;
 
     if (typeof value !== 'string') {
-      throw new TypeError(`Property ${prop_name} must be type 'string'! Tried to set value of type '${typeof value}'`);
+      throw new TypeError('Property ' + prop_name + ' must be type "string"! Tried to set value of type ' + (typeof value));
     }
 
     this['__' + prop_name] = value;
@@ -153,7 +153,7 @@ function numberValidation(prop_name, allow_nulls) {
     if (allow_nulls && value === null) return this['__' + prop_name] = value;
 
     if (typeof value !== 'number') {
-      throw new TypeError(`Property ${prop_name} must be type 'number'! Tried to set value of type '${typeof value}'`);
+      throw new TypeError('Property ' + prop_name + ' must be type "number"! Tried to set value of type ' + (typeof value));
     }
 
     this['__' + prop_name] = value;
@@ -165,7 +165,7 @@ function booleanValidation(prop_name, allow_nulls) {
     if (allow_nulls && value === null) return this['__' + prop_name] = value;
 
     if (typeof value !== 'boolean') {
-      throw new TypeError(`Property ${prop_name} must be type 'boolean'! Tried to set value of type '${typeof value}'`);
+      throw new TypeError('Property ' + prop_name + ' must be type "boolean"! Tried to set value of type ' + (typeof value));
     }
 
     this['__' + prop_name] = value;
@@ -177,7 +177,7 @@ function arrayValidation(prop_name, allow_nulls) {
     if (allow_nulls && value === null) return this['__' + prop_name] = value;
 
     if (!Array.isArray(value)) {
-      throw new TypeError(`Property ${prop_name} must an array! Tried to set value of type '${typeof value}'`);
+      throw new TypeError('Property ' + prop_name + ' must be type "array"! Tried to set value of type ' + (typeof value));
     }
 
     this['__' + prop_name] = value;
@@ -189,7 +189,7 @@ function objectValidation(prop_name, allow_nulls) {
     if (allow_nulls && value === null) return this['__' + prop_name] = value;
 
     if (!isObject(value)) {
-      throw new TypeError(`Property ${prop_name} must an object! Tried to set value of ${value}`);
+      throw new TypeError('Property ' + prop_name + ' must be an object! Tried to set value of type ' + (typeof value));
     }
 
     this['__' + prop_name] = value;
