@@ -65,6 +65,13 @@ Schemas can have the following format:
 }
 ```
 
-Note:  Currently Only String and Number Validation is working
+Working So Far:
+* Number
+* String
+* Nested Numbers/Strings
 
-TODO: More Examples
+To Do:
+* Boolean
+* Typed Arrays?
+
+View the Github repo here: https://github.com/WakeskaterX/schema-check

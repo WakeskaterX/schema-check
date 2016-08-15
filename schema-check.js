@@ -64,8 +64,8 @@ function applyRestrictionsToObject(obj, property, schema_setting) {
 
       //If the schema setting is an object - it's a new level of settings - recurse into it
       if (isObject(setting)) {
-        if (obj.hasOwnProperty(prop)) {
-          applyRestrictionsToObject(obj[prop], setting);
+        if (obj.hasOwnProperty(property)) {
+          applyRestrictionsToObject(obj[property], prop, setting);
         } else {
           throw new Error('Invalid Schema Setting Applied to Object!  Object does not have property: ' + prop);
         }

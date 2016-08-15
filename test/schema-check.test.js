@@ -18,10 +18,11 @@ describe('Schema Check Tests', function() {
       ],
       skills: {
         sword: 5,
-        magic: 5
+        magic: 5,
+        specialization: 'magic'
       }
     };
-  })
+  });
 
   describe('String Fields', function() {
     it('should return the original string if not updated', function() {
@@ -107,6 +108,27 @@ describe('Schema Check Tests', function() {
     });
   });
 
+  describe('Nested & Multiple Fields', function() {
+    it('should let you update multiple fields and return the correct fields', function() {
+      var result = nestedSetUp('john', 7, 10, 'sword');
+
+      should.not.exist(result);
+      mcTesty.name.should.equal('john');
+      mcTesty.life.should.equal(7);
+      mcTesty.skills.sword.should.equal(10);
+      mcTesty.skills.specialization.should.equal('sword');
+    });
+
+    it('throws an error if a nested field is given an invalid type', function() {
+      var result = nestedSetUp('john', 7, '10', 'sword');
+
+      console.log(JSON.stringify(mcTesty));
+
+      should.exist(result);
+      assert(result instanceof TypeError);
+    });
+  });
+
   /**
    * VALIDATION FUNCTIONS
    */
@@ -122,5 +144,28 @@ describe('Schema Check Tests', function() {
     else should.not.exist(err);
 
     if (value_to_test != null) expect(mcTesty[field]).to.equal(value_to_test);
+  }
+
+  function nestedSetUp(name, life, sword, spec) {
+    SchemaCheck(mcTesty, {
+      name: { type: 'string' },
+      life: { type: 'number' },
+      skills: {
+        sword: { type: 'number' },
+        specialization: { type: 'string' }
+      }
+    });
+
+    var err;
+    try {
+      mcTesty.name = name;
+      mcTesty.life = life;
+      mcTesty.skills.sword = sword;
+      mcTesty.skills.specialization = spec;
+    } catch (e) {
+      err = e;
+    }
+
+    return err;
   }
 });
