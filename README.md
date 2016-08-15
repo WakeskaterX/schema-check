@@ -18,7 +18,10 @@ var SchemaCheck = require('schema-check');
 
 var obj = {
   name: "test",
-  rating: 5
+  rating: 5,
+  settings: {
+    is_active: true
+  }
 };
 
 var schema = {
@@ -29,6 +32,11 @@ var schema = {
   },
   rating: {
     type: "number"
+  },
+  settings: {
+    is_active: {
+      type: "boolean"
+    }
   }
 }
 
@@ -50,6 +58,12 @@ obj.rating; //10
 //Trying to set rating to a string throws an error
 obj.rating = "10"; //Throws TypeError;
 
+//Set a nested value
+obj.settings.is_active = false;
+
+//Throws error
+obj.settings.is_active = "true";  //Throws TypeError;
+
 ```
 
 Schemas can have the following format:
@@ -57,7 +71,7 @@ Schemas can have the following format:
 ```javascript
 {
   field: {
-    type: 'string',       //string, object, number, array -- Only String/Number working
+    type: 'string',       //string, number, boolean
     allow_nulls: false,   //true, false - default false - can you have nulls in this field?
     allow_delete: false,  //true, false - default false - can you delete this field?
     editable: false       //true, false - default true - is there a Setter?
@@ -68,10 +82,10 @@ Schemas can have the following format:
 Working So Far:
 * Number
 * String
+* Boolean
 * Nested Numbers/Strings
 
 To Do:
-* Boolean
 * Typed Arrays?
 
 View the Github repo here: https://github.com/WakeskaterX/schema-check

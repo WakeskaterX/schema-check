@@ -20,7 +20,8 @@ describe('Schema Check Tests', function() {
         sword: 5,
         magic: 5,
         specialization: 'magic'
-      }
+      },
+      is_alive: true
     };
   });
 
@@ -108,6 +109,32 @@ describe('Schema Check Tests', function() {
     });
   });
 
+  describe('Boolean Fields', function() {
+    it('should return the original value if not update', function() {
+      SchemaCheck(mcTesty, {
+        is_alive: { type: 'boolean' }
+      });
+
+      validateOne('is_alive', null, true, false);
+    });
+
+    it('should let you update a boolean field with a boolean', function() {
+      SchemaCheck(mcTesty, {
+        is_alive: { type: 'boolean' }
+      });
+
+      validateOne('is_alive', false, false, false);
+    });
+
+    it('should reject an update that does not match the schema', function() {
+      SchemaCheck(mcTesty, {
+        is_alive: { type: 'boolean' }
+      });
+
+      validateOne('is_alive', 'false', null, true);
+    });
+  });
+
   describe('Nested & Multiple Fields', function() {
     it('should let you update multiple fields and return the correct fields', function() {
       var result = nestedSetUp('john', 7, 10, 'sword');
@@ -121,9 +148,6 @@ describe('Schema Check Tests', function() {
 
     it('throws an error if a nested field is given an invalid type', function() {
       var result = nestedSetUp('john', 7, '10', 'sword');
-
-      console.log(JSON.stringify(mcTesty));
-
       should.exist(result);
       assert(result instanceof TypeError);
     });

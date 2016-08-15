@@ -43,7 +43,7 @@ function applyRestrictionsToObject(obj, property, schema_setting) {
   if (valid_settings.allow_delete) descriptor.configurable = true;
 
   //For now only modify string and number types
-  if (valid_settings.type === 'string' || valid_settings.type === 'number') {
+  if (valid_settings.type === 'string' || valid_settings.type === 'number' || valid_settings.type === 'boolean') {
     //Create a setter only if editable (defaults to true)
     if (valid_settings.editable) descriptor.set = generateSetterFromType(valid_settings.type, property, obj, valid_settings.allow_nulls);
     if ((getType(obj[property]) === valid_settings.type) || (valid_settings.allow_nulls && obj[property] === null)) {
@@ -94,6 +94,8 @@ function generateSetterFromType(type, prop_name, obj, allow_nulls) {
       return stringValidation(prop_name, allow_nulls).bind(obj);
     case 'number':
       return numberValidation(prop_name, allow_nulls).bind(obj);
+    case 'boolean':
+      return booleanValidation(prop_name, allow_nulls).bind(obj);
     case 'array':
       return arrayValidation(prop_name, allow_nulls).bind(obj);
     case 'object':
@@ -109,6 +111,7 @@ function getType(varia) {
   if (typeof varia === 'string') return 'string';
   if (typeof varia === 'number') return 'number';
   if (Array.isArray(varia)) return 'array';
+  if (typeof varia === 'boolean') return 'boolean';
   return 'unknown';
 }
 
@@ -151,6 +154,18 @@ function numberValidation(prop_name, allow_nulls) {
 
     if (typeof value !== 'number') {
       throw new TypeError(`Property ${prop_name} must be type 'number'! Tried to set value of type '${typeof value}'`);
+    }
+
+    this['__' + prop_name] = value;
+  }
+}
+
+function booleanValidation(prop_name, allow_nulls) {
+  return function (value) {
+    if (allow_nulls && value === null) return this['__' + prop_name] = value;
+
+    if (typeof value !== 'boolean') {
+      throw new TypeError(`Property ${prop_name} must be type 'boolean'! Tried to set value of type '${typeof value}'`);
     }
 
     this['__' + prop_name] = value;
