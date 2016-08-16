@@ -1,10 +1,11 @@
 {
   "name": "schema-check",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A JavaScript Object Schema Validator for loose type checking on object property setting",
   "main": "schema-check.js",
   "scripts": {
-    "test": "mocha test/**/*test.js"
+    "test": "mocha test/**/*test.js",
+    "test:debug": "DEBUG=schema* mocha test/**/*test.js"
   },
   "keywords": [
     "schema",
@@ -17,5 +18,8 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.0.1"
+  },
+  "dependencies": {
+    "debug": "^2.2.0"
   }
 }

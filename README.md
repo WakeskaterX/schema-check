@@ -11,7 +11,7 @@ npm install schema-check
 ```
 
 ###Usage
-Pass in an object, schema and is_strict (can the object have additional fields?)
+Pass in an object, schema and options (additional settings for the SchemaCheck)
 
 ```javascript
 var SchemaCheck = require('schema-check');
@@ -38,9 +38,16 @@ var schema = {
       type: "boolean"
     }
   }
-}
+};
 
-var newObj = SchemaCheck(obj, schema, is_strict);
+var options = {
+  //Should additional fields be allowed?  Defaults to false
+  is_strict: false, //TODO - this isn't working yet
+  //Does adding an invalid field throw a TypeError or fail silently?  Defaults to true
+  throw_error: true
+};
+
+var newObj = SchemaCheck(obj, schema, options);
 
 //or
 
@@ -86,6 +93,15 @@ Working So Far:
 * Nested Numbers/Strings
 
 To Do:
+* Arrays?
 * Typed Arrays?
+* Make requests :)
 
 View the Github repo here: https://github.com/WakeskaterX/schema-check
+
+Also added [debug](https://github.com/visionmedia/debug), so if you want to view logging levels the debug strings are:
+* schema:error
+* schema:warn
+* schema:log
+
+I'll try to add more logs as well using debug

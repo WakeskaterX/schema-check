@@ -65,6 +65,16 @@ describe('Schema Check Tests', function() {
 
       validateOne('life', 32, 32, false);
     });
+
+    it('should not throw an error and fail silently if options.throw_error is set to false', function() {
+      SchemaCheck(mcTesty, {
+        name: { type: 'string' }
+      }, {
+        throw_error: false
+      });
+
+      validateOne('name', 32, 'test', false);
+    })
   });
 
   describe('Number Fields', function() {
