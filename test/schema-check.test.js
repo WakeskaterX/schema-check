@@ -4,6 +4,7 @@ var chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;
 var assert = chai.assert;
+var debug = require('debug')('schema:test');
 
 describe('Schema Check Tests', function() {
   var mcTesty = {};
@@ -48,6 +49,22 @@ describe('Schema Check Tests', function() {
       });
 
       validateOne('name', 5, null, true);
+    });
+
+    it('should use regex.test if a regex is specified to limit the string input', function() {
+      SchemaCheck(mcTesty, {
+        name: { type: 'string', regex: /^(jim|jan)$/}
+      });
+
+      validateOne('name', 'jan', 'jan', false);
+    });
+
+    it('should reject a string that does not match a specified regex', function() {
+      SchemaCheck(mcTesty, {
+        name: { type: 'string', regex: /^(jim|jan)$/}
+      });
+
+      validateOne('name', 'joe', null, true);
     });
 
     it('should ignore an attempt to update a non-editable field', function() {
@@ -173,6 +190,8 @@ describe('Schema Check Tests', function() {
     } catch (e) {
       err = e;
     }
+
+    if (err) debug(err);
 
     if (does_err) should.exist(err);
     else should.not.exist(err);

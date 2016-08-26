@@ -1,6 +1,6 @@
 {
   "name": "schema-check",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A JavaScript Object Schema Validator for loose type checking on object property setting",
   "main": "schema-check.js",
   "scripts": {

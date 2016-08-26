@@ -79,6 +79,7 @@ Schemas can have the following format:
 {
   field: {
     type: 'string',       //string, number, boolean
+    regex: /^test$/,      //regex - for string types only
     allow_nulls: false,   //true, false - default false - can you have nulls in this field?
     allow_delete: false,  //true, false - default false - can you delete this field?
     editable: false       //true, false - default true - is there a Setter?
@@ -89,6 +90,7 @@ Schemas can have the following format:
 Working So Far:
 * Number
 * String
+* Regex: Can lock down Setter with Regex for String Types
 * Boolean
 * Nested Numbers/Strings
 
@@ -103,5 +105,6 @@ Also added [debug](https://github.com/visionmedia/debug), so if you want to view
 * schema:error
 * schema:warn
 * schema:log
+* schema:test
 
 I'll try to add more logs as well using debug
