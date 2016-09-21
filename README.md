@@ -80,6 +80,8 @@ Schemas can have the following format:
   field: {
     type: 'string',       //string, number, boolean
     regex: /^test$/,      //regex - for string types only
+    min: 5,               //number minimum - value must be greater than or equal to this number - number types only
+    max: 5,               //number maximum - value must be less than or equal to this number - number types only
     allow_nulls: false,   //true, false - default false - can you have nulls in this field?
     allow_delete: false,  //true, false - default false - can you delete this field?
     editable: false       //true, false - default true - is there a Setter?
@@ -93,6 +95,7 @@ Working So Far:
 * Regex: Can lock down Setter with Regex for String Types
 * Boolean
 * Nested Numbers/Strings
+* Min/Max (Numbers Only)
 
 To Do:
 * Arrays?

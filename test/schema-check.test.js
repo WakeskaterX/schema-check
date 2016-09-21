@@ -134,6 +134,46 @@ describe('Schema Check Tests', function() {
 
       validateOne('name', 'bob', 'bob', false);
     });
+
+    it('should let you specify a minimum number and error if below', function() {
+      SchemaCheck(mcTesty, {
+        life: { type: 'number', min: 5 }
+      });
+
+      validateOne('life', 4, null, true);
+    });
+
+    it('should let you specify a minimum number accept a value greater or equal', function() {
+      SchemaCheck(mcTesty, {
+        life: { type: 'number', min: 5 }
+      });
+
+      validateOne('life', 5, 5, false);
+    });
+
+    it('should let you specify a maximum number and error if above', function() {
+      SchemaCheck(mcTesty, {
+        life: { type: 'number', max: 10 }
+      });
+
+      validateOne('life', 11, null, true);
+    });
+
+    it('should let you specify a maximum number accept a value less than or equal', function() {
+      SchemaCheck(mcTesty, {
+        life: { type: 'number', max: 10 }
+      });
+
+      validateOne('life', 6, 6, false);
+    });
+
+    it('should let you specify a minimum and maximum number and accept a value in between', function() {
+      SchemaCheck(mcTesty, {
+        life: { type: 'number', min: 5, max: 10 }
+      });
+
+      validateOne('life', 6, 6, false);
+    });
   });
 
   describe('Boolean Fields', function() {

@@ -152,6 +152,12 @@ function extractSettings(schema_object) {
     return_obj.allow_nulls = schema_object.allow_nulls != null && typeof schema_object.allow_nulls === "boolean" ? schema_object.allow_nulls : false;
     return_obj.allow_delete = schema_object.allow_delete != null && typeof schema_object.allow_delete === "boolean" ? schema_object.allow_delete : false;
     return_obj.editable = schema_object.editable != null && typeof schema_object.editable === "boolean" ? schema_object.editable : true;
+
+    if (schema_object.type === "number") {
+      if (!isNil(schema_object.min) && typeof schema_object.min === "number") return_obj.min = schema_object.min;
+      if (!isNil(schema_object.max) && typeof schema_object.max === "number") return_obj.max = schema_object.max;
+    }
+
     if (schema_object.type === "string" && schema_object.regex) {
       if (schema_object.regex instanceof RegExp) return_obj.regex = schema_object.regex;
       else debug_warn('schema field regex was specified but was not an instance of RegExp!  Ignoring regex!');
@@ -191,6 +197,18 @@ function numberValidation(prop_name, settings, options) {
     if (typeof value !== 'number') {
       if (options.throw_error) throw new TypeError('Property ' + prop_name + ' must be type "number"! Tried to set value of type ' + (typeof value));
       debug('Invalid Type specified, silently failing!  Type required: number, Type passed: ' + (typeof value));
+      return;
+    }
+
+    if (!isNil(settings.min) && value < settings.min) {
+      if (options.throw_error) throw new TypeError('Property ' + prop_name + ' must be at least: ' + settings.min + ', Tried to set value of: ' + value);
+      debug('Invalid Value Specified!  silently failing!  Minimum Value: ' + settings.min + ', Value passed: ' + value);
+      return;
+    }
+
+    if (!isNil(settings.max) && value > settings.max) {
+      if (options.throw_error) throw new TypeError('Property ' + prop_name + ' must be at most: ' + settings.max + ', Tried to set value of: ' + value);
+      debug('Invalid Value Specified!  silently failing!  Maximum Value: ' + settings.max + ', Value passed: ' + value);
       return;
     }
 
@@ -253,6 +271,17 @@ function isObject(obj) {
   if (obj instanceof RegExp) return false;
   if (typeof obj === 'object') return true;
   return false;
+}
+
+/**
+ * Is Nil
+ *
+ * Returns if the value is undefined or null
+ * @oaram {any} value
+ * @returns boolean
+ */
+function isNil(value) {
+  return value === undefined || value === null;
 }
 
 //TODO: Make this work in browser
